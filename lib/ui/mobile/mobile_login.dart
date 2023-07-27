@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:pickmeup/ui/mobile/home_page.dart';
+import 'package:pickmeup/ui/mobile/mobile_helper/background.dart';
+import 'package:pickmeup/ui/mobile/mobile_register.dart';
 
 class MobileLoginForm extends StatefulWidget {
   const MobileLoginForm({super.key});
@@ -34,11 +35,12 @@ class _LoginFormState extends State<MobileLoginForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
+        const Background(),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 60),
+              margin: const EdgeInsets.only(bottom: 200),
               child: const Text(
                 "Login",
                 style: TextStyle(
@@ -64,6 +66,9 @@ class _LoginFormState extends State<MobileLoginForm> {
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(100),
                           bottomRight: Radius.circular(100),
+                        ),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 84, 5, 98),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -144,36 +149,34 @@ class _LoginFormState extends State<MobileLoginForm> {
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
-                            Color(0xff1bccba),
-                            Color(0xff22e2ab),
+                            Color.fromARGB(255, 183, 27, 204),
+                            Color.fromARGB(255, 136, 34, 226),
                           ],
                         ),
                       ),
                       child: InkWell(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
-
                             // var personDetails = await AuthService.login(
-                            //      _usernameController, _passwordController); 
+                            //      _usernameController, _passwordController);
                             var personDetails = 200;
                             var loginStatusCode = personDetails;
 
-                            
-                              // var personDetailsConverted  = 
-                              //     json.decode(personDetails);
+                            // var personDetailsConverted  =
+                            //     json.decode(personDetails);
 
-                              // saveDataToLocalStorage(personDetailsConverted);
-                              // RoleUtil(readData());
-                              _usernameController.clear();
-                              _passwordController.clear();
+                            // saveDataToLocalStorage(personDetailsConverted);
+                            // RoleUtil(readData());
+                            _usernameController.clear();
+                            _passwordController.clear();
 
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => const HomePage(),
-                              //   ),
-                              // );
-                            //} 
-                             if (loginStatusCode == 400) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
+                            //}
+                            if (loginStatusCode == 400) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                       backgroundColor: Colors.transparent,
@@ -244,7 +247,7 @@ class _LoginFormState extends State<MobileLoginForm> {
                                           ),
                                         ),
                                       ])));
-                            } 
+                            }
                           }
                         },
                         child: const Icon(
@@ -265,18 +268,18 @@ class _LoginFormState extends State<MobileLoginForm> {
                   margin: const EdgeInsets.only(left: 16, top: 24),
                   child: InkWell(
                     onTap: () async {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const RegisterForm(),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const MobileRegisterForm(),
+                        ),
+                      );
                     },
                     child: const Text(
                       "Register",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xffe98f60),
+                        color: Color.fromARGB(255, 183, 27, 204),
                       ),
                     ),
                   ),
