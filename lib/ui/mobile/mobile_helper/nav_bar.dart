@@ -37,7 +37,7 @@ class _NavigationBarPageState extends State<NavigationBarPage>
               ? "Home"
               : "Account",
       tabIconColor: Colors.black,
-      tabSelectedColor: const Color.fromARGB(255, 144, 31, 163),
+      tabSelectedColor: Theme.of(context).primaryColor,
       onTabItemSelected: (int value) {
         setState(() {
           _tabController.index = value;

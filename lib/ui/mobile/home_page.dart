@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             height: 200,
           ),
         ),
