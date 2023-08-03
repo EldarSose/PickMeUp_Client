@@ -1,19 +1,29 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:pickmeup/models/taxi.dart';
+import 'package:pickmeup/service/_global_url.dart';
 
 class TaxiService {
   Future<List<Taxi>> getAllTaxi() async {
-    // var url = Uri.parse('${GlobalUrl.url}report');
-    // final response = await http.get(url);
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+    print(url);
+    var u = Uri.parse('${url}Taxi/GetAll');
+    final response = await http.get(u);
 
-    // if (response.statusCode == 200) {
-    //   List jsonResponse = json.decode(response.body);
-    //   return jsonResponse.map((report) => Report.fromMap(report)).toList();
-    // } else {
-    //   throw Exception('Unexpected error occured');
-    // }
-    throw Exception("Not implemented");
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((taxi) => Taxi.fromMap(taxi)).toList();
+    } else {
+      throw Exception('Unexpected error occured');
+    }
+    //throw Exception("Not implemented");
   }
 
   Future<Taxi> getTaxiById(int id) async {
