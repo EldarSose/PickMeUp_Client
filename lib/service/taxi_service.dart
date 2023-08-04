@@ -13,7 +13,6 @@ class TaxiService {
     } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
       url = GlobalUrl.desktopUrl;
     }
-    print(url);
     var u = Uri.parse('${url}Taxi/GetAll');
     final response = await http.get(u);
 

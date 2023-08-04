@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:pickmeup/models/user.dart';
+
+import '_global_url.dart';
 
 class UserService {
   Future<List<User>> getAllUsers() async {
@@ -17,15 +21,20 @@ class UserService {
   }
 
   Future<User> getUserById(int id) async {
-    // var url = Uri.parse('${GlobalUrl.url}report/$id');
-    // final response = await http.get(url);
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+    var u = Uri.parse('${url}User/GetById?id=$id');
+    final response = await http.get(u);
 
-    // if (response.statusCode == 200) {
-    //   return Report.fromMap(json.decode(response.body));
-    // } else {
-    //   throw Exception("Unexpected error ocured");
-    // }
-    throw Exception("Not implemented");
+    if (response.statusCode == 200) {
+      return User.fromMap(json.decode(response.body));
+    } else {
+      throw Exception("Unexpected error ocured");
+    }
   }
 
   Future<User> addUser(User user) async {

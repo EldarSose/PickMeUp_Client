@@ -3,6 +3,7 @@ import 'dart:convert';
 
 class Taxi {
   int? taxiId;
+  String? taxiName;
   int? userId;
   double? startingPrice;
   double? pricePerKilometer;
@@ -10,6 +11,7 @@ class Taxi {
   bool? isDeleted;
   Taxi({
     this.taxiId,
+    this.taxiName,
     this.userId,
     this.startingPrice,
     this.pricePerKilometer,
@@ -19,6 +21,7 @@ class Taxi {
 
   Taxi copyWith({
     int? taxiId,
+    String? taxiName,
     int? userId,
     double? startingPrice,
     double? pricePerKilometer,
@@ -27,6 +30,7 @@ class Taxi {
   }) {
     return Taxi(
       taxiId: taxiId ?? this.taxiId,
+      taxiName: taxiName ?? this.taxiName,
       userId: userId ?? this.userId,
       startingPrice: startingPrice ?? this.startingPrice,
       pricePerKilometer: pricePerKilometer ?? this.pricePerKilometer,
@@ -38,6 +42,7 @@ class Taxi {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'taxiId': taxiId,
+      'taxiName': taxiName,
       'userId': userId,
       'startingPrice': startingPrice,
       'pricePerKilometer': pricePerKilometer,
@@ -49,6 +54,7 @@ class Taxi {
   factory Taxi.fromMap(Map<String, dynamic> map) {
     return Taxi(
       taxiId: map['taxiId'] != null ? map['taxiId'] as int : null,
+      taxiName: map['taxiName'] != null ? map['taxiName'] as String : null,
       userId: map['userId'] != null ? map['userId'] as int : null,
       startingPrice:
           map['startingPrice'] != null ? map['startingPrice'] as double : null,
@@ -67,7 +73,7 @@ class Taxi {
 
   @override
   String toString() {
-    return 'Taxi(taxiId: $taxiId, userId: $userId, startingPrice: $startingPrice, pricePerKilometer: $pricePerKilometer, address: $address, isDeleted: $isDeleted)';
+    return 'Taxi(taxiId: $taxiId, taxiName: $taxiName, userId: $userId, startingPrice: $startingPrice, pricePerKilometer: $pricePerKilometer, address: $address, isDeleted: $isDeleted)';
   }
 
   @override
@@ -75,6 +81,7 @@ class Taxi {
     if (identical(this, other)) return true;
 
     return other.taxiId == taxiId &&
+        other.taxiName == taxiName &&
         other.userId == userId &&
         other.startingPrice == startingPrice &&
         other.pricePerKilometer == pricePerKilometer &&
@@ -85,6 +92,7 @@ class Taxi {
   @override
   int get hashCode {
     return taxiId.hashCode ^
+        taxiName.hashCode ^
         userId.hashCode ^
         startingPrice.hashCode ^
         pricePerKilometer.hashCode ^

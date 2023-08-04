@@ -69,7 +69,7 @@ class User {
       userAccountId:
           map['userAccountId'] != null ? map['userAccountId'] as int : null,
       dateOfBirth: map['dateOfBirth'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['dateOfBirth'] as int)
+          ? DateTime.parse(map['dateOfBirth'])
           : null,
       genderId: map['genderId'] != null ? map['genderId'] as int : null,
       phoneNumber:

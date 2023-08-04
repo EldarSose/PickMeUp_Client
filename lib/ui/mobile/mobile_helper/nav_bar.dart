@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../home_page.dart';
+
 class NavigationBarPage extends StatefulWidget {
   final int index;
   const NavigationBarPage({required this.index, super.key});
@@ -30,9 +32,9 @@ class _NavigationBarPageState extends State<NavigationBarPage>
   @override
   Widget build(BuildContext context) {
     return MotionTabBar(
-      labels: const ["Cart", "Home", "Account"],
+      labels: const ["My orders", "Home", "Account"],
       initialSelectedTab: widget.index == 0
-          ? "Cart"
+          ? "My orders"
           : widget.index == 1
               ? "Home"
               : "Account",
@@ -48,21 +50,21 @@ class _NavigationBarPageState extends State<NavigationBarPage>
             //     child: const CartPage(),
             //     type: PageTransitionType.fade,
             //     duration: const Duration(
-            //       milliseconds: 00,
-            //     ),
-            //   ),
-            // );
-          } else if (_tabController.index == 1) {
-            // Navigator.pushReplacement(
-            //   context,
-            //   PageTransition(
-            //     child: const HomePage(),
-            //     type: PageTransitionType.fade,
-            //     duration: const Duration(
             //       milliseconds: 300,
             //     ),
             //   ),
             // );
+          } else if (_tabController.index == 1) {
+            Navigator.pushReplacement(
+              context,
+              PageTransition(
+                child: const HomePage(),
+                type: PageTransitionType.fade,
+                duration: const Duration(
+                  milliseconds: 300,
+                ),
+              ),
+            );
           } else if (_tabController.index == 2) {
             // Navigator.pushReplacement(
             //   context,
