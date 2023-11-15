@@ -163,6 +163,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
                                     controller: _dateController,
+                                    // ignore: body_might_complete_normally_nullable
                                     validator: (value) {
                                       if (value!.trim().isEmpty) {
                                         return "Enter Date";
@@ -256,15 +257,15 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(20))),
-                                              child: Row(
+                                              child: const Row(
                                                 children: [
-                                                  const SizedBox(width: 12),
+                                                  SizedBox(width: 12),
                                                   Expanded(
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
-                                                      children: const [
+                                                      children: [
                                                         Text(
                                                           "Registration failed. The username is already taken.",
                                                           style: TextStyle(

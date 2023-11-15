@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -33,7 +35,7 @@ class TaxiService {
       url = GlobalUrl.desktopUrl;
     }
     var u = Uri.parse('${url}Taxi/GetById?=$id');
-    final response = await http.get(url);
+    final response = await http.get(u);
 
     if (response.statusCode == 200) {
       return Taxi.fromMap(json.decode(response.body));
