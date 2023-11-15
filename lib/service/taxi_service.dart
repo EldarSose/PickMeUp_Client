@@ -26,63 +26,79 @@ class TaxiService {
   }
 
   Future<Taxi> getTaxiById(int id) async {
-    // var url = Uri.parse('${GlobalUrl.url}report/$id');
-    // final response = await http.get(url);
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+    var u = Uri.parse('${url}Taxi/GetById?=$id');
+    final response = await http.get(url);
 
-    // if (response.statusCode == 200) {
-    //   return Report.fromMap(json.decode(response.body));
-    // } else {
-    //   throw Exception("Unexpected error ocured");
-    // }
-    throw Exception("Not implemented");
+    if (response.statusCode == 200) {
+      return Taxi.fromMap(json.decode(response.body));
+    } else {
+      throw Exception("Unexpected error ocured");
+    }
+    //throw Exception("Not implemented");
   }
 
   Future<Taxi> addTaxi(Taxi taxi) async {
-    // final response = await http.post(
-    //   Uri.parse('${GlobalUrl.url}report/add'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     'title': report.title.toString(),
-    //     'description': report.description.toString(),
-    //     'madeBy': report.madeBy,
-    //     'timeCreated': report.timeCreated.toString(),
-    //     'timeFinished': report.timeFinished,
-    //     'status': report.status,
-    //     'closedBy': report.closedBy,
-    //   }),
-    // );
-    // if (response.statusCode == 201) {
-    //   return Report.fromMap(json.decode(response.body));
-    // } else {
-    //   throw Exception('Report loading failed!');
-    // }
-    throw Exception("Not implemented");
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+
+    final response = await http.post(
+      Uri.parse('${url}Taxi/TaxiAdd'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'taxiName': taxi.taxiName.toString(),
+        'userId': taxi.userId.toString(),
+        'startingPrice': taxi.startingPrice.toString(),
+        'pricePerKilometer': taxi.pricePerKilometer.toString(),
+        'address': taxi.address.toString()
+      }),
+    );
+    if (response.statusCode == 201) {
+      return Taxi.fromMap(json.decode(response.body));
+    } else {
+      throw Exception('Report loading failed!');
+    }
+    //throw Exception("Not implemented");
   }
 
   Future<Taxi> editTaxi(Taxi taxi) async {
-    // final response = await http.put(
-    //   Uri.parse('${GlobalUrl.url}report/edit/${report.id}'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     'title': report.title.toString(),
-    //     'description': report.description.toString(),
-    //     'madeBy': report.madeBy,
-    //     'timeCreated': report.timeCreated.toString(),
-    //     'timeFinished': report.timeFinished,
-    //     'status': report.status,
-    //     'closedBy': report.closedBy,
-    //   }),
-    // );
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    } 
 
-    // if (response.statusCode == 200) {
-    //   return Report.fromMap(json.decode(response.body));
-    // } else {
-    //   throw Exception('Unexpected error occured');
-    // }
-    throw Exception("Not implemented");
+    final response = await http.put(
+      Uri.parse('${url}Taxi/TaxiEdit?=${taxi.taxiId}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'taxiName': taxi.taxiName.toString(),
+        'userId': taxi.userId.toString(),
+        'startingPrice': taxi.startingPrice.toString(),
+        'pricePerKilometer': taxi.pricePerKilometer.toString(),
+        'address': taxi.address.toString()
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return Taxi.fromMap(json.decode(response.body));
+    } else {
+      throw Exception('Unexpected error occured');
+    }
+    //throw Exception("Not implemented");
   }
 }
