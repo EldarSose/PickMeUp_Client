@@ -95,7 +95,7 @@ class _LoginFormState extends State<MobileLoginForm> {
                                 controller: _usernameController,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
-                                    return "Enter Username";
+                                    return "Enter Email";
                                   } else {
                                     return value.trim().length < 5
                                         ? 'Minimum character length is 5'
@@ -106,7 +106,7 @@ class _LoginFormState extends State<MobileLoginForm> {
                                   hintStyle: TextStyle(fontSize: 20),
                                   border: InputBorder.none,
                                   icon: Icon(Icons.account_circle_rounded),
-                                  hintText: "Username",
+                                  hintText: "Email",
                                 ),
                               ),
                             ),
