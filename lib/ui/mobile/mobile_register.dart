@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickmeup/ui/mobile/mobile_login.dart';
 
-import '../../service/user_service.dart';
 import 'mobile_helper/background.dart';
 
 class MobileRegisterForm extends StatefulWidget {
@@ -14,14 +13,11 @@ class MobileRegisterForm extends StatefulWidget {
 
 class _MobileRegisterFormState extends State<MobileRegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final genderController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final taxiCompanyController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +73,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                 margin:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
-                                  controller: firstNameController,
+                                  controller: _firstNameController,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return "Enter First Name";
@@ -99,7 +95,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                 margin:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
-                                  controller: lastNameController,
+                                  controller: _lastNameController,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return "Enter Last Name";
@@ -121,7 +117,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                 margin:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
-                                  controller: usernameController,
+                                  controller: _usernameController,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return "Enter Username";
@@ -135,7 +131,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                     hintStyle: TextStyle(fontSize: 16),
                                     border: InputBorder.none,
                                     icon: Icon(Icons.account_circle_rounded),
-                                    hintText: "Email",
+                                    hintText: "Username",
                                   ),
                                 ),
                               ),
@@ -143,7 +139,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                 margin:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
-                                  controller: passwordController,
+                                  controller: _passwordController,
                                   validator: (value) {
                                     if (value!.trim().isEmpty) {
                                       return "Enter Password";
@@ -166,7 +162,8 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                 margin:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 child: TextFormField(
-                                    controller: dateController,
+                                    controller: _dateController,
+                                    // ignore: body_might_complete_normally_nullable
                                     validator: (value) {
                                       if (value!.trim().isEmpty) {
                                         return "Enter Date";
@@ -189,7 +186,7 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
 
                                       if (pickedDate != null) {
                                         setState(() {
-                                          dateController.text =
+                                          _dateController.text =
                                               DateFormat('yyyy-MM-dd')
                                                   .format(pickedDate);
                                         });
@@ -228,35 +225,25 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                           child: InkWell(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                var statusCode = await UserService.addUser(
-                                    firstNameController,
-                                    lastNameController,
-                                    usernameController,
-                                    dateController,
-                                    phoneNumberController,
-                                    passwordController,
-                                    genderController,
-                                    taxiCompanyController);
+                                var statusCode = 200;
+                                // await AuthService.usernameVerification(
+                                //     _usernameController.text);
 
                                 if (statusCode >= 200 && statusCode < 300) {
-                                  firstNameController.clear();
-                                  lastNameController.clear();
-                                  usernameController.clear();
-                                  dateController.clear();
-                                  phoneNumberController.clear();
-                                  passwordController.clear();
-                                  genderController.clear();
-                                  taxiCompanyController.clear();
+                                  // final hashedPwd = Crypt.sha256(
+                                  //     _passwordController.text,
+                                  //     salt: Constants.salt);
 
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MobileLoginForm(),
-                                    ),
-                                  );
-                                } else if (statusCode >= 400) {
-                                  // ignore: use_build_context_synchronously
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //   builder: (context) => BuildingsByAddress(
+                                  //     firstNameController: _firstNameController,
+                                  //     lastNameController: _lastNameController,
+                                  //     usernameController: _usernameController,
+                                  //     hashedPwd: hashedPwd,
+                                  //     dateController: _dateController,
+                                  //   ),
+                                  // ));
+                                } else if (statusCode == 409) {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                           backgroundColor: Colors.transparent,
