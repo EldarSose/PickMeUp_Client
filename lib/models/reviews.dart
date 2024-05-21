@@ -6,7 +6,7 @@ class Reviews {
   int? taxiId;
   int? userId;
   String? comment;
-  double? rating;
+  num? rating;
   bool? isDeleted;
   Reviews({
     this.reviewId,
@@ -52,7 +52,7 @@ class Reviews {
       taxiId: map['taxiId'] != null ? map['taxiId'] as int : null,
       userId: map['userId'] != null ? map['userId'] as int : null,
       comment: map['comment'] != null ? map['comment'] as String : null,
-      rating: map['rating'] != null ? map['rating'] as double : null,
+      rating: map['rating'] != null ? map['rating'] as num : null,
       isDeleted: map['isDeleted'] != null ? map['isDeleted'] as bool : null,
     );
   }

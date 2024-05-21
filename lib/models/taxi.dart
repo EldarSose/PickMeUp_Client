@@ -5,8 +5,8 @@ class Taxi {
   int? taxiId;
   String? taxiName;
   int? userId;
-  double? startingPrice;
-  double? pricePerKilometer;
+  num? startingPrice;
+  num? pricePerKilometer;
   String? address;
   bool? isDeleted;
   Taxi({
@@ -57,9 +57,9 @@ class Taxi {
       taxiName: map['taxiName'] != null ? map['taxiName'] as String : null,
       userId: map['userId'] != null ? map['userId'] as int : null,
       startingPrice:
-          map['startingPrice'] != null ? map['startingPrice'] as double : null,
+          map['startingPrice'] != null ? map['startingPrice'] as num : null,
       pricePerKilometer: map['pricePerKilometer'] != null
-          ? map['pricePerKilometer'] as double
+          ? map['pricePerKilometer'] as num
           : null,
       address: map['address'] != null ? map['address'] as String : null,
       isDeleted: map['isDeleted'] != null ? map['isDeleted'] as bool : null,

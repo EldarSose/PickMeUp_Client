@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -88,10 +87,11 @@ class buildTaxiUI extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
+            width: 1.5,
           ),
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(120, 0, 0, 0),
+          color: const Color.fromARGB(120, 255, 255, 255),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,8 +102,8 @@ class buildTaxiUI extends StatelessWidget {
               child: Center(
                 child: Text(
                   taxi.taxiName.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontSize: 30,
                   ),
                 ),
@@ -112,16 +112,16 @@ class buildTaxiUI extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text(
+                Text(
                   "Starting price:",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Text(
                   "${taxi.startingPrice}KM",
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -130,16 +130,16 @@ class buildTaxiUI extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text(
+                Text(
                   "Price per km:",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Text(
                   "${taxi.pricePerKilometer}KM",
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -148,16 +148,16 @@ class buildTaxiUI extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text(
+                Text(
                   "Address:",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Text(
                   "${taxi.address}",
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

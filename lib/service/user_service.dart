@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -62,15 +64,17 @@ class UserService {
         'firstName': firstNameController.text.toString(),
         'lastName': lastNameController.text.toString(),
         'dateOfBirth': dateController.text,
-        'genderID': 1, //genderController.text,
-        'phoneNumber': '063799704', //phoneNumberController.text.toString(),
+        'genderID': "1", //genderController.text,
+        'phoneNumber': "063799704", //phoneNumberController.text.toString(),
         'taxiCompanyID': null, // taxiCompanyController.text,
         'email': usernameController.text.toString(),
         'password': passwordController.text.toString()
       }),
     );
 
-    return response;
+    print(response.statusCode);
+
+    return response.statusCode;
     /*
     if (response.statusCode == 200) {
       return User.fromMap(json.decode(response.body));

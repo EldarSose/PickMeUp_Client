@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pickmeup/service/user_service.dart';
 import 'package:pickmeup/ui/mobile/mobile_login.dart';
 
 import 'mobile_helper/background.dart';
@@ -17,7 +18,10 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
   final _lastNameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _taxiCompanyController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -225,25 +229,25 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                           child: InkWell(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                var statusCode = 200;
-                                // await AuthService.usernameVerification(
-                                //     _usernameController.text);
+                                var statusCode = await UserService.addUser(
+                                    _firstNameController,
+                                    _lastNameController,
+                                    _usernameController,
+                                    _dateController,
+                                    _phoneNumberController,
+                                    _passwordController,
+                                    _genderController,
+                                    _taxiCompanyController);
+
+                                print(statusCode);
 
                                 if (statusCode >= 200 && statusCode < 300) {
-                                  // final hashedPwd = Crypt.sha256(
-                                  //     _passwordController.text,
-                                  //     salt: Constants.salt);
-
-                                  // Navigator.of(context).push(MaterialPageRoute(
-                                  //   builder: (context) => BuildingsByAddress(
-                                  //     firstNameController: _firstNameController,
-                                  //     lastNameController: _lastNameController,
-                                  //     usernameController: _usernameController,
-                                  //     hashedPwd: hashedPwd,
-                                  //     dateController: _dateController,
-                                  //   ),
-                                  // ));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MobileLoginForm(),
+                                  ));
                                 } else if (statusCode == 409) {
+                                  // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                           backgroundColor: Colors.transparent,

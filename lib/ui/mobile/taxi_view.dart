@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pickmeup/models/reviews.dart';
 import 'package:pickmeup/models/user.dart';
+import 'package:pickmeup/service/reviews_service.dart';
 import 'package:pickmeup/service/user_service.dart';
 
 import '../../models/taxi.dart';
@@ -24,8 +26,11 @@ class _TaxiViewState extends State<TaxiView> {
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const HomePage()))),
         title: Center(
-            child: Text(
-          "${widget.taxi.taxiName}",
+            child: Padding(
+          padding: const EdgeInsets.only(right: 60.0),
+          child: Text(
+            "${widget.taxi.taxiName}",
+          ),
         )),
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -42,13 +47,13 @@ class _TaxiViewState extends State<TaxiView> {
                         Container(
                           height: 200,
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: Theme.of(context).primaryColor,
+                                color: Colors.black,
                               ),
                             ),
-                            color: const Color.fromARGB(120, 0, 0, 0),
+                            color: Color.fromARGB(0, 0, 0, 0),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,23 +61,23 @@ class _TaxiViewState extends State<TaxiView> {
                             children: <Widget>[
                               Text(
                                 widget.taxi.taxiName.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 35,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               Text(
                                 "Adresa: ${widget.taxi.address.toString()}",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 25,
-                                  color: Colors.white,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               Text(
                                 "Vlasnik: ${snapshot.data?.firstName} ${snapshot.data?.lastName}",
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: 22,
                                 ),
                               ),
@@ -84,32 +89,32 @@ class _TaxiViewState extends State<TaxiView> {
                             children: <Widget>[
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Colors.black,
                                       ),
                                       right: BorderSide(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                    color: const Color.fromARGB(120, 0, 0, 0),
+                                    color: Color.fromARGB(0, 0, 0, 0),
                                   ),
                                   child: ListTile(
-                                    title: const Text(
+                                    title: Text(
                                       "Početna cijena: ",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                     subtitle: Text(
                                       "${widget.taxi.startingPrice}KM",
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 20,
-                                        color: Colors.white70,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   ),
@@ -117,29 +122,29 @@ class _TaxiViewState extends State<TaxiView> {
                               ),
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                    color: const Color.fromARGB(120, 0, 0, 0),
+                                    color: Color.fromARGB(0, 0, 0, 0),
                                   ),
                                   child: ListTile(
-                                    title: const Text(
+                                    title: Text(
                                       "Cijena po km: ",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                     subtitle: Text(
                                       "${widget.taxi.pricePerKilometer}KM",
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 20,
-                                        color: Colors.white70,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   ),
@@ -161,43 +166,45 @@ class _TaxiViewState extends State<TaxiView> {
                           ),
                           children: <Widget>[
                             // TODO
-                            //   Center(
-                            //     child: FutureBuilder<dynamic>(
-                            //         future: fetchReviewsByTaxi(),
-                            //         builder: (context, snapshot) {
-                            //           if (snapshot.connectionState ==
-                            //               ConnectionState.waiting) {
-                            //             return const CircularProgressIndicator();
-                            //           } else if (snapshot.hasData &&
-                            //               snapshot.data!.isNotEmpty) {
-                            //             final apartments = snapshot.data!;
-                            //             return buildApartments(
-                            //                 apartments, context);
-                            //           } else {
-                            //             return const Text(
-                            //                 "Apartments not found.");
-                            //           }
-                            //         }),
-                            //   ),
-                            //   Row(
-                            //     mainAxisAlignment: MainAxisAlignment.center,
-                            //     children: [
-                            //       Container(
-                            //         margin: const EdgeInsets.all(10),
-                            //         child: FloatingActionButton(
-                            //           heroTag: null,
-                            //           backgroundColor: const Color(0xfff8a55f),
-                            //           onPressed: () {
-                            //             Navigator.of(context).push(
-                            //                 MaterialPageRoute(
-                            //                     builder: (context) =>
-                            //                         const SearchForm()));
-                            //           },
-                            //           child: const Icon(Icons.add_outlined),
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
+                            Center(
+                              child: FutureBuilder<dynamic>(
+                                  future:
+                                      fetchReviewsByTaxi(widget.taxi.taxiId),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const CircularProgressIndicator();
+                                    } else if (snapshot.hasData &&
+                                        snapshot.data!.isNotEmpty) {
+                                      final apartments = snapshot.data!;
+                                      return buildTaxi(
+                                          apartments, context, widget.taxi);
+                                    } else {
+                                      return const Text(
+                                          "Apartments not found.");
+                                    }
+                                  }),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  child: FloatingActionButton(
+                                    heroTag: null,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
+                                    onPressed: () {
+                                      /*Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ));*/
+                                    },
+                                    child: const Icon(Icons.add_outlined),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                           onExpansionChanged: (bool expanded) {
                             setState(() => _customTileExpanded = expanded);
@@ -219,4 +226,46 @@ class _TaxiViewState extends State<TaxiView> {
 
 Future<User> getUser(id) async {
   return await UserService().getUserById(id);
+}
+
+Widget buildTaxi(List<Reviews> reviews, dynamic context, Taxi taxi) =>
+    ListView.builder(
+      shrinkWrap: true,
+      itemCount: reviews.length,
+      itemBuilder: (context, index) {
+        final review = reviews[index];
+        print(reviews[index].comment);
+
+        return InkWell(
+          /*onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AppartmentView(apartment, building)));
+          },*/
+          child: Card(
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                  side:
+                      BorderSide(width: 2, color: Colors.grey.withOpacity(0.5)),
+                  borderRadius: BorderRadius.circular(20)),
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Icon(
+                  Icons.star,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              title: Text("${review.comment}"),
+              subtitle: Text("Rating: ${review.rating}"),
+              trailing: Icon(
+                Icons.arrow_forward,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+Future<List<Reviews>> fetchReviewsByTaxi(taxiId) async {
+  return await ReviewsService.getAllReviews();
 }

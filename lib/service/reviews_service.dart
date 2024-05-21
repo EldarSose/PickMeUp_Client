@@ -1,19 +1,28 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:pickmeup/models/reviews.dart';
 
-class ReviewsService {
-  Future<List<Reviews>> getAllReviews() async {
-    // var url = Uri.parse('${GlobalUrl.url}report');
-    // final response = await http.get(url);
+import '_global_url.dart';
 
-    // if (response.statusCode == 200) {
-    //   List jsonResponse = json.decode(response.body);
-    //   return jsonResponse.map((report) => Report.fromMap(report)).toList();
-    // } else {
-    //   throw Exception('Unexpected error occured');
-    // }
-    throw Exception("Not implemented");
+class ReviewsService {
+  static Future<List<Reviews>> getAllReviews() async {
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+    var u = Uri.parse('${url}Reviews/GetAll');
+    final response = await http.get(u);
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((reviews) => Reviews.fromMap(reviews)).toList();
+    } else {
+      throw Exception('Unexpected error occured');
+    }
   }
 
   Future<Reviews> getReviewsById(int id) async {
