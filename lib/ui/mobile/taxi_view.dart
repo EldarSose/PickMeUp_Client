@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pickmeup/models/reviews.dart';
 import 'package:pickmeup/models/user.dart';
 import 'package:pickmeup/service/reviews_service.dart';
@@ -6,6 +7,7 @@ import 'package:pickmeup/service/user_service.dart';
 
 import '../../models/taxi.dart';
 import 'home_page.dart';
+import 'package:collection/collection.dart';
 
 class TaxiView extends StatefulWidget {
   final Taxi taxi;
@@ -17,6 +19,16 @@ class TaxiView extends StatefulWidget {
 
 class _TaxiViewState extends State<TaxiView> {
   bool _customTileExpanded = false;
+  double rating = 0;
+  @override
+  void initState() {
+    getRating(widget.taxi.taxiId).then((rat) {
+      setState(() {
+        rating = rat;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +93,23 @@ class _TaxiViewState extends State<TaxiView> {
                                   fontSize: 22,
                                 ),
                               ),
+                              RatingBar.builder(
+                                  //TODO povuci prosjecnu ocjenu
+                                  initialRating: rating,
+                                  ignoreGestures: true,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                  onRatingUpdate: (rating) {
+                                    //print(rating);
+                                  }),
                             ],
                           ),
                         ),
@@ -153,63 +182,6 @@ class _TaxiViewState extends State<TaxiView> {
                             ],
                           ),
                         ),
-                        ExpansionTile(
-                          //TODO PROSJECNA OCJENA
-                          title: Text('Reviews',
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor)),
-                          trailing: Icon(
-                            color: Theme.of(context).primaryColor,
-                            _customTileExpanded
-                                ? Icons.arrow_drop_down_circle
-                                : Icons.arrow_drop_down,
-                          ),
-                          children: <Widget>[
-                            // TODO
-                            Center(
-                              child: FutureBuilder<dynamic>(
-                                  future:
-                                      fetchReviewsByTaxi(widget.taxi.taxiId),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
-                                    } else if (snapshot.hasData &&
-                                        snapshot.data!.isNotEmpty) {
-                                      final apartments = snapshot.data!;
-                                      return buildTaxi(
-                                          apartments, context, widget.taxi);
-                                    } else {
-                                      return const Text(
-                                          "Apartments not found.");
-                                    }
-                                  }),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: FloatingActionButton(
-                                    heroTag: null,
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    onPressed: () {
-                                      /*Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ));*/
-                                    },
-                                    child: const Icon(Icons.add_outlined),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                          onExpansionChanged: (bool expanded) {
-                            setState(() => _customTileExpanded = expanded);
-                          },
-                        ),
                       ],
                     );
                   } else if (snapshot.hasError) {
@@ -217,6 +189,52 @@ class _TaxiViewState extends State<TaxiView> {
                   }
                   return const CircularProgressIndicator();
                 }),
+          ),
+          Container(
+            height: 274,
+            child: ExpansionTile(
+              title: Text('Reviews',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+              trailing: Icon(
+                color: Theme.of(context).primaryColor,
+                _customTileExpanded
+                    ? Icons.arrow_drop_down_circle
+                    : Icons.arrow_drop_down,
+              ),
+              children: <Widget>[
+                Container(
+                  height: 210,
+                  child: FutureBuilder<dynamic>(
+                      future: fetchReviewsByTaxi(widget.taxi.taxiId),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.isNotEmpty) {
+                          final apartments = snapshot.data!;
+                          return buildTaxi(apartments, context, widget.taxi);
+                        } else {
+                          return const Text("Reviews not found.");
+                        }
+                      }),
+                ),
+              ],
+              onExpansionChanged: (bool expanded) {
+                setState(() => _customTileExpanded = expanded);
+              },
+            ),
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () {
+              /*Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ));*/
+            },
+            child: const Icon(Icons.add_outlined),
           ),
         ],
       ),
@@ -231,16 +249,67 @@ Future<User> getUser(id) async {
 Widget buildTaxi(List<Reviews> reviews, dynamic context, Taxi taxi) =>
     ListView.builder(
       shrinkWrap: true,
+      //physics: const AlwaysScrollableScrollPhysics(),
       itemCount: reviews.length,
       itemBuilder: (context, index) {
         final review = reviews[index];
-        print(reviews[index].comment);
 
         return InkWell(
-          /*onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AppartmentView(apartment, building)));
-          },*/
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  alignment: Alignment.bottomCenter,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 2),
+                  ),
+                  elevation: 5.0,
+                  backgroundColor: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width *
+                        0.8, // 80% of screen width
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Review with rating of: ${review.rating}"),
+                        const SizedBox(height: 20.0),
+                        Text("${review.comment}"),
+                        const SizedBox(height: 20.0),
+                        RatingBar.builder(
+                            initialRating: review.rating!.toDouble(),
+                            ignoreGestures: true,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                            onRatingUpdate: (rating) {
+                              //print(rating);
+                            }),
+                        const SizedBox(height: 20.0),
+                        ElevatedButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
           child: Card(
             child: ListTile(
               shape: RoundedRectangleBorder(
@@ -254,8 +323,10 @@ Widget buildTaxi(List<Reviews> reviews, dynamic context, Taxi taxi) =>
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-              title: Text("${review.comment}"),
-              subtitle: Text("Rating: ${review.rating}"),
+              title: Text("${review.comment}", overflow: TextOverflow.ellipsis),
+              subtitle: Text(
+                "Rating: ${review.rating}",
+              ),
               trailing: Icon(
                 Icons.arrow_forward,
                 color: Theme.of(context).primaryColor,
@@ -267,5 +338,19 @@ Widget buildTaxi(List<Reviews> reviews, dynamic context, Taxi taxi) =>
     );
 
 Future<List<Reviews>> fetchReviewsByTaxi(taxiId) async {
-  return await ReviewsService.getAllReviews();
+  List<Reviews> rev = await ReviewsService.getAllReviews();
+
+  List<Reviews> reviews = rev.where((x) => x.taxiId == taxiId).toList();
+
+  return reviews;
+}
+
+Future<double> getRating(taxiId) async {
+  List<Reviews> rev = await ReviewsService.getAllReviews();
+
+  List<Reviews> reviews = rev.where((x) => x.taxiId == taxiId).toList();
+
+  double average = reviews.map((e) => e.rating!.toDouble()).average;
+
+  return average;
 }
