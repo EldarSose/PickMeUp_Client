@@ -3,7 +3,7 @@ import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../home_page.dart';
-import '../profile_view.dart';
+import '../profile_page/profile_view.dart';
 
 class NavigationBarPage extends StatefulWidget {
   final int index;
