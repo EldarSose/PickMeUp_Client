@@ -71,17 +71,7 @@ class UserService {
         'password': passwordController.text.toString()
       }),
     );
-
-    print(response.statusCode);
-
     return response.statusCode;
-    /*
-    if (response.statusCode == 200) {
-      return User.fromMap(json.decode(response.body));
-    } else {
-      throw Exception("Unexpected error ocured");
-    }
-    */
   }
 
   static Future login(TextEditingController usernameController,

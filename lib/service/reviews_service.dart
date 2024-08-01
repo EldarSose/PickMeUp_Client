@@ -8,6 +8,7 @@ import '_global_url.dart';
 
 class ReviewsService {
   static Future<List<Reviews>> getAllReviews() async {
+    // ignore: prefer_typing_uninitialized_variables
     var url;
     if (Platform.isAndroid || Platform.isIOS) {
       url = GlobalUrl.mobileUrl;
@@ -37,28 +38,28 @@ class ReviewsService {
     throw Exception("Not implemented");
   }
 
-  Future<Reviews> addReviews(Reviews reviews) async {
-    // final response = await http.post(
-    //   Uri.parse('${GlobalUrl.url}report/add'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     'title': report.title.toString(),
-    //     'description': report.description.toString(),
-    //     'madeBy': report.madeBy,
-    //     'timeCreated': report.timeCreated.toString(),
-    //     'timeFinished': report.timeFinished,
-    //     'status': report.status,
-    //     'closedBy': report.closedBy,
-    //   }),
-    // );
-    // if (response.statusCode == 201) {
-    //   return Report.fromMap(json.decode(response.body));
-    // } else {
-    //   throw Exception('Report loading failed!');
-    // }
-    throw Exception("Not implemented");
+  static Future<int> addReviews(Reviews reviews) async {
+    var url;
+    if (Platform.isAndroid || Platform.isIOS) {
+      url = GlobalUrl.mobileUrl;
+    } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      url = GlobalUrl.desktopUrl;
+    }
+
+    final response = await http.post(
+      Uri.parse('${url}Reviews/Add'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'taxiId': reviews.taxiId.toString(),
+        'userId': reviews.userId.toString(),
+        'comment': reviews.comment.toString(),
+        'rating': reviews.rating.toString()
+      }),
+    );
+    print(response.statusCode);
+    return response.statusCode;
   }
 
   Future<Reviews> editReviews(Reviews reviews) async {

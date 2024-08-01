@@ -239,9 +239,8 @@ class _MobileRegisterFormState extends State<MobileRegisterForm> {
                                     _genderController,
                                     _taxiCompanyController);
 
-                                print(statusCode);
-
                                 if (statusCode >= 200 && statusCode < 300) {
+                                  // ignore: use_build_context_synchronously
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
                                         const MobileLoginForm(),
