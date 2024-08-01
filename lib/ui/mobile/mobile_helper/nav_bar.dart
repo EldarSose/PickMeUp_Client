@@ -3,6 +3,7 @@ import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../home_page.dart';
+import '../profile_view.dart';
 
 class NavigationBarPage extends StatefulWidget {
   final int index;
@@ -66,16 +67,16 @@ class _NavigationBarPageState extends State<NavigationBarPage>
               ),
             );
           } else if (_tabController.index == 2) {
-            // Navigator.pushReplacement(
-            //   context,
-            //   PageTransition(
-            //     child: const ProfilePage(),
-            //     type: PageTransitionType.fade,
-            //     duration: const Duration(
-            //       milliseconds: 300,
-            //     ),
-            //   ),
-            // );
+            Navigator.pushReplacement(
+              context,
+              PageTransition(
+                child: const ProfilePage(),
+                type: PageTransitionType.fade,
+                duration: const Duration(
+                  milliseconds: 300,
+                ),
+              ),
+            );
           }
         });
       },
